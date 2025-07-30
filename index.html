@@ -69,13 +69,18 @@
 
   <script>
     function generate() {
-      const first = document.getElementById('first').value.trim();
-      const last = document.getElementById('last').value.trim();
-      const title = document.getElementById('title').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const linkedin = document.getElementById('linkedin').value.trim();
+  const first = document.getElementById('first').value.trim();
+  const last = document.getElementById('last').value.trim();
+  const title = document.getElementById('title').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const linkedin = document.getElementById('linkedin').value.trim();
 
-      const html = `
+  // Truncate LinkedIn display text
+  let linkedinDisplay = linkedin
+    .replace(/^https?:\/\//, '')
+    .replace(/^www\./, '');
+
+  const html = `
 <table cellpadding="0" cellspacing="0">
   <tr>
     <td>
@@ -109,24 +114,15 @@
       <img src="https://cdn.bytenite.com/email-signature/linkedin-in.png" width="16" style="vertical-align:middle;">
       &nbsp;
       <a href="${linkedin}" target="_blank">
-        <font face="Arial" size="3" color="#B027CE">${linkedin}</font>
+        <font face="Arial" size="3" color="#B027CE">${linkedinDisplay}</font>
       </a>
     </td>
   </tr>
 </table>`.trim();
 
-      document.getElementById('output').value = html;
-      document.getElementById('preview').srcdoc = html;
-    }
-
-    function download() {
-      const html = document.getElementById('output').value;
-      const blob = new Blob([html], { type: 'text/html' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'signature.html';
-      a.click();
-    }
+  document.getElementById('output').value = html;
+  document.getElementById('preview').srcdoc = html;
+}
   </script>
 </body>
 </html>
