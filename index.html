@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Signature Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 6px;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 16px;
+      font-size: 16px;
+      background: #B027CE;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    pre, iframe {
+      width: 100%;
+      margin-top: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      font-family: monospace;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>ByteNite Email Signature Generator</h1>
+  <label>First Name:</label>
+  <input type="text" id="first">
+
+  <label>Last Name:</label>
+  <input type="text" id="last">
+
+  <label>Job Title:</label>
+  <input type="text" id="title">
+
+  <label>Email:</label>
+  <input type="email" id="email">
+
+  <label>LinkedIn URL:</label>
+  <input type="url" id="linkedin">
+
+  <button onclick="generate()">Generate Signature</button>
+
+  <h2>Signature Preview</h2>
+  <iframe id="preview" style="height: 200px; border:1px solid #ccc;"></iframe>
+
+  <h2>Raw HTML Code</h2>
+  <textarea id="output" readonly></textarea>
+  <button onclick="download()">Download HTML</button>
+
+  <script>
+    function generate() {
+      const first = document.getElementById('first').value.trim();
+      const last = document.getElementById('last').value.trim();
+      const title = document.getElementById('title').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const linkedin = document.getElementById('linkedin').value.trim();
+
+      const html = `
+<table cellpadding="0" cellspacing="0">
+  <tr>
+    <td>
+      <font face="Arial" size="4" color="#B027CE"><b>${first} ${last}</b></font><br>
+      <font face="Arial" size="3"><b>${title}</b></font>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <hr style="border:0; border-top:1px solid #D9BDE1; width:100%; margin:8px 0;">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="https://www.bytenite.com" target="_blank">
+        <img src="https://cdn.bytenite.com/logo/lockup/horizontal/full-color/logo-web-small.png" width="120" alt="ByteNite Logo">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://cdn.bytenite.com/email-signature/envelope.png" width="16" style="vertical-align:middle;">
+      &nbsp;
+      <a href="mailto:${email}">
+        <font face="Arial" size="3" color="#B027CE">${email}</font>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://cdn.bytenite.com/email-signature/linkedin-in.png" width="16" style="vertical-align:middle;">
+      &nbsp;
+      <a href="${linkedin}" target="_blank">
+        <font face="Arial" size="3" color="#B027CE">${linkedin}</font>
+      </a>
+    </td>
+  </tr>
+</table>`.trim();
+
+      document.getElementById('output').value = html;
+      document.getElementById('preview').srcdoc = html;
+    }
+
+    function download() {
+      const html = document.getElementById('output').value;
+      const blob = new Blob([html], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'signature.html';
+      a.click();
+    }
+  </script>
+</body>
+</html>
